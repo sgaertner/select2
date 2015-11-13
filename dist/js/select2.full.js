@@ -2919,6 +2919,10 @@ S2.define('select2/data/select',[
     if ($(data.element).is('option')) {
       data.element.selected = true;
 
+      var ev = document.createEvent('HTMLEvents');
+      ev.initEvent('change', true, false);
+      this.$element.get(0).dispatchEvent(ev);
+
       this.$element.trigger('change');
 
       return;
@@ -5330,7 +5334,7 @@ S2.define('select2/compat/utils',[
 
       $(classes.split(/\s+/)).each(function () {
         // Save all Select2 classes
-        if (this.indexOf('select2-') === 0) {
+        if (this.indexOf('select2') === 0) {
           replacements.push(this);
         }
       });
@@ -5343,7 +5347,7 @@ S2.define('select2/compat/utils',[
 
       $(classes.split(/\s+/)).each(function () {
         // Only adapt non-Select2 classes
-        if (this.indexOf('select2-') !== 0) {
+        if (this.indexOf('select2') !== 0) {
           adapted = adapter(this);
 
           if (adapted != null) {
@@ -5384,7 +5388,7 @@ S2.define('select2/compat/containerCss',[
     var containerCssAdapter = this.options.get('adaptContainerCssClass');
     containerCssAdapter = containerCssAdapter || _containerAdapter;
 
-    if (containerCssClass.indexOf(':all:') !== -1) {
+    if (containerCssClass.indexOf(':all') !== -1) {
       containerCssClass = containerCssClass.replace(':all', '');
 
       var _cssAdapter = containerCssAdapter;

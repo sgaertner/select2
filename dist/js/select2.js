@@ -2919,6 +2919,10 @@ S2.define('select2/data/select',[
     if ($(data.element).is('option')) {
       data.element.selected = true;
 
+      var ev = document.createEvent('HTMLEvents');
+      ev.initEvent('change', true, false);
+      this.$element.get(0).dispatchEvent(ev);
+
       this.$element.trigger('change');
 
       return;
@@ -5373,6 +5377,107 @@ S2.define('jquery.select2',[
   }
 
   return Select2;
+});
+
+S2.define('select2/compat/utils',[
+  'jquery'
+], function ($) {
+  function syncCssClasses ($dest, $src, adapter) {
+    var classes, replacements = [], adapted;
+
+    classes = $.trim($dest.attr('class'));
+
+    if (classes) {
+      classes = '' + classes; // for IE which returns object
+
+      $(classes.split(/\s+/)).each(function () {
+        // Save all Select2 classes
+        if (this.indexOf('select2') === 0) {
+          replacements.push(this);
+        }
+      });
+    }
+
+    classes = $.trim($src.attr('class'));
+
+    if (classes) {
+      classes = '' + classes; // for IE which returns object
+
+      $(classes.split(/\s+/)).each(function () {
+        // Only adapt non-Select2 classes
+        if (this.indexOf('select2') !== 0) {
+          adapted = adapter(this);
+
+          if (adapted != null) {
+            replacements.push(adapted);
+          }
+        }
+      });
+    }
+
+    $dest.attr('class', replacements.join(' '));
+  }
+
+  return {
+    syncCssClasses: syncCssClasses
+  };
+});
+
+S2.define('select2/compat/containerCss',[
+  'jquery',
+  './utils'
+], function ($, CompatUtils) {
+  // No-op CSS adapter that discards all classes by default
+  function _containerAdapter (clazz) {
+    return null;
+  }
+
+  function ContainerCSS () { }
+
+  ContainerCSS.prototype.render = function (decorated) {
+    var $container = decorated.call(this);
+
+    var containerCssClass = this.options.get('containerCssClass') || '';
+
+    if ($.isFunction(containerCssClass)) {
+      containerCssClass = containerCssClass(this.$element);
+    }
+
+    var containerCssAdapter = this.options.get('adaptContainerCssClass');
+    containerCssAdapter = containerCssAdapter || _containerAdapter;
+
+    if (containerCssClass.indexOf(':all') !== -1) {
+      containerCssClass = containerCssClass.replace(':all', '');
+
+      var _cssAdapter = containerCssAdapter;
+
+      containerCssAdapter = function (clazz) {
+        var adapted = _cssAdapter(clazz);
+
+        if (adapted != null) {
+          // Append the old one along with the adapted one
+          return adapted + ' ' + clazz;
+        }
+
+        return clazz;
+      };
+    }
+
+    var containerCss = this.options.get('containerCss') || {};
+
+    if ($.isFunction(containerCss)) {
+      containerCss = containerCss(this.$element);
+    }
+
+    CompatUtils.syncCssClasses($container, this.$element, containerCssAdapter);
+
+    $container.css(containerCss);
+    $container.addClass(containerCssClass);
+
+    return $container;
+  };
+
+  return ContainerCSS;
 });
 
 S2.define('jquery.mousewheel',[
