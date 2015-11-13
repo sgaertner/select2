@@ -4,6 +4,7 @@ module.exports = function (grunt) {
     'jquery.select2',
     'almond',
 
+    'select2/compat/containerCss',
     'jquery.mousewheel' // shimmed for non-full builds
   ];
 
