@@ -21,7 +21,7 @@ define([
     var containerCssAdapter = this.options.get('adaptContainerCssClass');
     containerCssAdapter = containerCssAdapter || _containerAdapter;
 
-    if (containerCssClass.indexOf(':all:') !== -1) {
+    if (containerCssClass.indexOf(':all') !== -1) {
       containerCssClass = containerCssClass.replace(':all', '');
 
       var _cssAdapter = containerCssAdapter;

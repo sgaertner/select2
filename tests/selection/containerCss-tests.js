@@ -10,10 +10,10 @@ var ContainerCSS = Utils.Decorate(
   require('select2/compat/containerCss')
 );
 
-test('all classes will be copied if :all: is used', function (assert) {
+test('all classes will be copied if :all is used', function (assert) {
   var $element = $('<select class="test copy works"></select>');
   var options = new Options({
-    containerCssClass: ':all:'
+    containerCssClass: ':all'
   });
 
   var select = new ContainerCSS($element, options);
@@ -22,13 +22,13 @@ test('all classes will be copied if :all: is used', function (assert) {
   assert.ok($container.hasClass('test'));
   assert.ok($container.hasClass('copy'));
   assert.ok($container.hasClass('works'));
-  assert.ok(!$container.hasClass(':all:'));
+  assert.ok(!$container.hasClass(':all'));
 });
 
-test(':all: can be used with other classes', function (assert) {
+test(':all can be used with other classes', function (assert) {
   var $element = $('<select class="test copy works"></select>');
   var options = new Options({
-    containerCssClass: ':all: other'
+    containerCssClass: ':all other'
   });
 
   var select = new ContainerCSS($element, options);
@@ -38,7 +38,7 @@ test(':all: can be used with other classes', function (assert) {
   assert.ok($container.hasClass('copy'));
   assert.ok($container.hasClass('works'));
   assert.ok($container.hasClass('other'));
-  assert.ok(!$container.hasClass(':all:'));
+  assert.ok(!$container.hasClass(':all'));
 });
 
 test('classes can be passed in as a string', function (assert) {
@@ -68,10 +68,10 @@ test('a function can be used based on the element', function (assert){
   assert.ok(!$container.hasClass('test'));
 });
 
-test(':all: works around custom adapters', function (assert) {
+test(':all works around custom adapters', function (assert) {
   var $element = $('<select class="test"></select>');
   var options = new Options({
-    containerCssClass: ':all: something',
+    containerCssClass: ':all something',
     adaptContainerCssClass: function (clazz) {
       return clazz + '-modified';
     }
