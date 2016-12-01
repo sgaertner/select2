@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     'almond',
 
     'select2/compat/containerCss',
-    'jquery.mousewheel' // shimmed for non-full builds
+    'jquery-mousewheel' // shimmed for non-full builds
   ];
 
   fullIncludes = [
@@ -151,7 +151,8 @@ module.exports = function (grunt) {
             },
 
             {
-              browserName: 'firefox'
+              browserName: 'firefox',
+              platform: 'linux'
             },
 
             {
@@ -160,7 +161,8 @@ module.exports = function (grunt) {
 
             {
               browserName: 'opera',
-              version: '12'
+              version: '12',
+              platform: 'linux'
             }
           ]
         }
@@ -255,9 +257,9 @@ module.exports = function (grunt) {
           include: includes,
           namespace: 'S2',
           paths: {
-            almond: '../../vendor/almond-0.2.9',
-            jquery: 'jquery.shim',
-            'jquery.mousewheel': 'jquery.mousewheel.shim'
+            'almond': require.resolve('almond').slice(0, -3),
+            'jquery': 'jquery.shim',
+            'jquery-mousewheel': 'jquery.mousewheel.shim'
           },
           wrap: {
             startFile: 'src/js/banner.start.js',
@@ -274,9 +276,9 @@ module.exports = function (grunt) {
           include: fullIncludes,
           namespace: 'S2',
           paths: {
-            almond: '../../vendor/almond-0.2.9',
-            jquery: 'jquery.shim',
-            'jquery.mousewheel': '../../vendor/jquery.mousewheel'
+            'almond': require.resolve('almond').slice(0, -3),
+            'jquery': 'jquery.shim',
+            'jquery-mousewheel': require.resolve('jquery-mousewheel').slice(0, -3)
           },
           wrap: {
             startFile: 'src/js/banner.start.js',
