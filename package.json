@@ -58,7 +58,7 @@
     "grunt-jekyll": "^0.4.2",
     "grunt-sass": "1.1.0",
     "grunt-saucelabs": "^8.6.0",
-    "node-sass": "3.4.1"
+    "node-sass": "^4.7.0"
   },
   "dependencies": {
     "almond": "~0.3.1",
