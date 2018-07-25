@@ -3123,6 +3123,10 @@ S2.define('select2/data/select',[
     if ($(data.element).is('option')) {
       data.element.selected = false;
 
+      var ev = document.createEvent('HTMLEvents');
+      ev.initEvent('change', true, false);
+      this.$element.get(0).dispatchEvent(ev);
+
       this.$element.trigger('change');
 
       return;
