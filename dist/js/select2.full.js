@@ -1637,6 +1637,9 @@ S2.define('select2/selection/multiple',[
           originalEvent: evt,
           data: data
         });
+
+        // don't open drop-down
+        evt.stopPropagation();
       }
     );
   };

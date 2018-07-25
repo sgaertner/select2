@@ -50,6 +50,9 @@ define([
           originalEvent: evt,
           data: data
         });
+
+        // don't open drop-down
+        evt.stopPropagation();
       }
     );
   };
